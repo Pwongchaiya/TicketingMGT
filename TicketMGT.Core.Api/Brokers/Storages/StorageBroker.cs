@@ -1,12 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using TicketMGT.Core.Api.Models.Tickets;
 
 namespace TicketMGT.Core.Api.Brokers.Storages
 {
-    public class StorageBroker: EFxceptionsContext, IStorageBroker
+    partial class StorageBroker: EFxceptionsContext, IStorageBroker
     {
         private readonly IConfiguration configuration;
 
