@@ -1,0 +1,6 @@
+@TicketMGT.Core.Api_HostAddress = http://localhost:5064
+
+GET {{TicketMGT.Core.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
