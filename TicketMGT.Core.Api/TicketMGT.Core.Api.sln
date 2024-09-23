@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketMGT.Core.Api", "TicketMGT.Core.Api.csproj", "{1E289BCC-E93C-4E66-9BF2-86560AE8EBDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketingMGT.Core.Api.Tests.Unit", "..\TicketingMGT.Core.Api.Tests.Unit\TicketingMGT.Core.Api.Tests.Unit.csproj", "{250BA9CA-67D6-407B-9D16-1F4CCF8A4D3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketMGT.Core.Api.Tests.Unit", "..\TicketingMGT.Core.Api.Tests.Unit\TicketMGT.Core.Api.Tests.Unit.csproj", "{250BA9CA-67D6-407B-9D16-1F4CCF8A4D3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
