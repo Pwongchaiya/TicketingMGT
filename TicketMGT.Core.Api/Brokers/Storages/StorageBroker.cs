@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using EFxceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using TicketMGT.Core.Api.Models.Tickets;
+using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Brokers.Storages
 {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System;
 
-namespace TicketMGT.Core.Api.Models.Tickets
+namespace TicketMGT.Core.Api.Models.Foundations.Tickets
 {
     public class Ticket
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using TicketMGT.Core.Api.Models.Tickets;
+using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Services.Foundations
 {

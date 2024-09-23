@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TicketMGT.Core.Api.Brokers.DateTimes;
 using TicketMGT.Core.Api.Brokers.Loggings;
 using TicketMGT.Core.Api.Brokers.Storages;
-using TicketMGT.Core.Api.Models.Tickets;
+using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Services.Foundations
 {

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Force.DeepCloner;
 using Moq;
-using TicketMGT.Core.Api.Models.Tickets;
+using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 {

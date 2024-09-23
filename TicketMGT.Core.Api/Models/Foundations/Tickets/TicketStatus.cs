@@ -1,4 +1,4 @@
-﻿namespace TicketMGT.Core.Api.Models.Tickets
+﻿namespace TicketMGT.Core.Api.Models.Foundations.Tickets
 {
     public enum TicketStatus
     {

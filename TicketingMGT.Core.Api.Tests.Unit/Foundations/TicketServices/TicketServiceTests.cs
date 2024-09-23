@@ -4,11 +4,11 @@ using Moq;
 using TicketMGT.Core.Api.Brokers.DateTimes;
 using TicketMGT.Core.Api.Brokers.Loggings;
 using TicketMGT.Core.Api.Brokers.Storages;
-using TicketMGT.Core.Api.Models.Tickets;
 using TicketMGT.Core.Api.Services.Foundations;
 using Tynamix.ObjectFiller;
 using Xeptions;
 using System.Runtime.CompilerServices;
+using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 {

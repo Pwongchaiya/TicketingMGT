@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System;
-using TicketMGT.Core.Api.Models.Tickets;
 using Microsoft.EntityFrameworkCore;
+using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Brokers.Storages
 {
