@@ -26,7 +26,7 @@ namespace TicketMGT.Core.Api.Services.Foundations
 
         public ValueTask<Ticket> CreateTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            return StorageBroker.AddTicketAsync(ticket);
         }
 
         public ValueTask<Ticket> DeleteTicketAsync(Guid id)
