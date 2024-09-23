@@ -8,26 +8,29 @@ using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Services.Foundations
 {
-    public class TicketService : ITicketService
+    public partial class TicketService : ITicketService
     {
-        private readonly IStorageBroker StorageBroker;        
-        private readonly ILoggingBroker LoggingBroker;
-        private readonly IDateTimeBroker DateTimeBroker;
+        private readonly IStorageBroker storageBroker;        
+        private readonly ILoggingBroker loggingBroker;
+        private readonly IDateTimeBroker dateTimeBroker;
 
         public TicketService(
             IStorageBroker storageBroker,
             ILoggingBroker loggingBroker,
             IDateTimeBroker dateTimeBroker)
         {
-            DateTimeBroker = dateTimeBroker;
-            LoggingBroker = loggingBroker;
-            StorageBroker = storageBroker;
+            this.dateTimeBroker = dateTimeBroker;
+            this.loggingBroker = loggingBroker;
+            this.storageBroker = storageBroker;
         }
 
-        public ValueTask<Ticket> CreateTicketAsync(Ticket ticket)
+        public ValueTask<Ticket> CreateTicketAsync(Ticket ticket) =>
+        TryCatch(async () =>
         {
-            return StorageBroker.AddTicketAsync(ticket);
-        }
+            ValidateTicketOnAdd(ticket);
+
+            return await storageBroker.AddTicketAsync(ticket);
+        });
 
         public ValueTask<Ticket> DeleteTicketAsync(Guid id)
         {

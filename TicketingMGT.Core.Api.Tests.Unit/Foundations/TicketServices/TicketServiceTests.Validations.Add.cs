@@ -1,30 +1,88 @@
-﻿using Moq;
+﻿using FluentAssertions;
+using Moq;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
+using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
 
 namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 {
     public partial class TicketServiceTests
     {
         [Fact]
-        private async Task ShouldThrowValidationExceptionOnAddIfTicketIsInvalidAndLogItAsync()
+        public async Task ShouldThrowValidationExceptionOnAddIfTicketIsNullAndLogItAsync()
         {
             // given
-            var invalidTicket = new Ticket();
+            Ticket nullTicket = null;
+
+            var nullTicketException =
+                new NullTicketException(
+                    message: "Ticket is null.");
+
+            var expectedTicketValidationException = new TicketValidationException(
+                message: "Ticket validation error occurred. Fix the errors and try again.",
+                innerException: nullTicketException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.AddTicketAsync(
+                    It.IsAny<Ticket>()))
+                        .ReturnsAsync(nullTicket);
+
+            // when
+            ValueTask<Ticket> ticketTask =
+                this.ticketService.CreateTicketAsync(nullTicket);
+
+            TicketValidationException actualTicketValidationException =
+                await Assert.ThrowsAsync<TicketValidationException>(
+                    ticketTask.AsTask);
+
+            // then
+            actualTicketValidationException.Should().BeEquivalentTo(
+                expectedTicketValidationException);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedTicketValidationException))),
+                    Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.AddTicketAsync(
+                    It.IsAny<Ticket>()),
+                        Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        private async Task ShouldThrowValidationExceptionOnAddIfTicketIsInvalidAndLogItAsync(
+            string invalidText)
+        {
+            // given
+            var invalidTicket = new Ticket()
+            {
+                Title = invalidText,
+                Description = invalidText,
+                Status = TicketStatus.InProgress
+            };
+
 
             var invalidTicketException = new InvalidTicketException(
                 message: "Invalid Ticket. Please correct the errors and try again");
 
             invalidTicketException.AddData(
                 key: nameof(Ticket.Title),
-                values: "Title is required");
+                values: "Text is required");
 
             invalidTicketException.AddData(
                 key: nameof(Ticket.Description),
-                values: "Description is required");
+                values: "Text is required");
 
             invalidTicketException.AddData(
                 key: nameof(Ticket.Status),
-                values: "Status is required");
+                values: "Value is required");
 
             invalidTicketException.AddData(
                 key: nameof(Ticket.Id),
@@ -56,7 +114,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTimeOffset(),
-                    Times.Once);
+                    Times.Never);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -64,7 +122,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                     Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.(
+                broker.AddTicketAsync(
                     It.IsAny<Ticket>()),
                         Times.Never);
 
