@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TicketMGT.Core.Api.Brokers.Storages
 {
-    partial class StorageBroker
+    public partial class StorageBroker
     {
         public DbSet<Ticket> Tickets { get; set; }
 

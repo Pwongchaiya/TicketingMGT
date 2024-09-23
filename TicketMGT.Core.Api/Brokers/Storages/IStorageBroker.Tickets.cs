@@ -5,7 +5,7 @@ using TicketMGT.Core.Api.Models.Tickets;
 
 namespace TicketMGT.Core.Api.Brokers.Storages
 {
-    partial interface IStorageBroker
+    public partial interface IStorageBroker
     {
         ValueTask<Ticket> AddTicketAsync(Ticket ticket);
 

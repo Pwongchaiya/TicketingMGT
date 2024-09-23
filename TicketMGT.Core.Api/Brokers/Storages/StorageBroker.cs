@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,7 @@ using TicketMGT.Core.Api.Models.Tickets;
 
 namespace TicketMGT.Core.Api.Brokers.Storages
 {
-    partial class StorageBroker: EFxceptionsContext, IStorageBroker
+    public partial class StorageBroker: EFxceptionsContext, IStorageBroker
     {
         private readonly IConfiguration configuration;
 
@@ -20,12 +19,15 @@ namespace TicketMGT.Core.Api.Brokers.Storages
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            string connectionString = this.configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-
-            string connectionString = this.configuration
-                .GetConnectionString(name: "DefaultConnection");
-
             optionsBuilder.UseSqlServer(connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            ConfigureTicket(modelBuilder.Entity<Ticket>());
         }
 
         private async ValueTask<T> InsertAsync<T>(T @object)

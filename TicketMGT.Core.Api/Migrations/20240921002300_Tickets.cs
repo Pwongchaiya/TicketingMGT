@@ -5,7 +5,7 @@
 namespace TicketMGT.Core.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class Ticket : Migration
+    public partial class Tickets : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
