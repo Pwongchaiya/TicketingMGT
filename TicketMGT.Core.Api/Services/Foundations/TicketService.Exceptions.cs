@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -12,6 +13,7 @@ namespace TicketMGT.Core.Api.Services.Foundations
     public partial class TicketService
     {
         private delegate ValueTask<Ticket> ReturningTicketFunction();
+        private delegate IQueryable<Ticket> ReturningTicketsFunction();
 
         private async ValueTask<Ticket> TryCatch(
             ReturningTicketFunction returningTicketFunction)
@@ -58,6 +60,32 @@ namespace TicketMGT.Core.Api.Services.Foundations
                         innerException: dbUpdateException);
 
                 throw CreateAndLogDependencyException(failedTicketCodeStorageException);
+            }
+            catch (Exception exception)
+            {
+                var failedTicketServiceException = new FailedTicketServiceException(
+                    message: "Failed ticket service error occurred, contact support.",
+                    innerException: exception);
+
+                throw CreateAndLogServiceException(failedTicketServiceException);
+            }
+        }
+
+        private IQueryable<Ticket> TryCatch(
+            ReturningTicketsFunction returningTicketsFunction)
+        {
+            try
+            {
+                return returningTicketsFunction();
+            }
+            catch (SqlException sqlException)
+            {
+                var failedTicketCodeStorageException =
+                    new FailedTicketStorageException(
+                        message: "Failed ticket storage error occurred, contact support.",
+                        innerException: sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedTicketCodeStorageException);
             }
             catch (Exception exception)
             {

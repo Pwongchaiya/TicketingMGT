@@ -32,10 +32,8 @@ namespace TicketMGT.Core.Api.Services.Foundations
             return await storageBroker.InsertTicketAsync(ticket);
         });
 
-        public IQueryable<Ticket> RetrieveAllTicketsAsync()
-        {
-            return storageBroker.SelectAllTicketsAsync();
-        }
+        public IQueryable<Ticket> RetrieveAllTicketsAsync() =>
+        TryCatch(() => storageBroker.SelectAllTicketsAsync());
 
         public ValueTask<Ticket> RetrieveTicketByIdAsync(Guid ticketId) =>
         TryCatch(async () =>
