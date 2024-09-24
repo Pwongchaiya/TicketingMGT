@@ -24,7 +24,7 @@ jobs:
 
       - name: Restore NuGet packages
         run: dotnet restore
-        working-directory: .\.\TicketMGT.Core.Api.sln
+        working-directory: TicketMGT.Core.Api.sln
 
       - name: Build project
         run: dotnet build --no-restore
