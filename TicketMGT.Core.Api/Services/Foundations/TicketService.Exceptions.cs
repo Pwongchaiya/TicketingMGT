@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,14 @@ namespace TicketMGT.Core.Api.Services.Foundations
 
                 throw CreateAndLogDependencyException(failedTicketCodeStorageException);
             }
+            catch (Exception exception)
+            {
+                var failedTicketServiceException = new FailedTicketServiceException(
+                    message: "Failed ticket service error occurred, contact support.",
+                    innerException: exception);
+
+                throw CreateAndLogServiceException(failedTicketServiceException);
+            }
         }
 
         private TicketValidationException CreateAndLogValidationException(
@@ -70,7 +79,7 @@ namespace TicketMGT.Core.Api.Services.Foundations
         }
 
         private TicketDependencyException CreateAndLogCriticalDependencyException(
-        Xeption exception)
+            Xeption exception)
         {
             var ticketCodeDependencyException = new TicketDependencyException(
                 message: "Ticket dependency error occurred, contact support.",
@@ -104,6 +113,18 @@ namespace TicketMGT.Core.Api.Services.Foundations
             this.loggingBroker.LogError(ticketDependencyException);
 
             return ticketDependencyException;
-        }        
+        }
+
+        private TicketServiceException CreateAndLogServiceException(
+            Xeption exception)
+        {
+            var ticketServiceException = new TicketServiceException(
+                message: "Ticket service error occurred, contact support.",
+                innerException: exception);
+
+            this.loggingBroker.LogError(ticketServiceException);
+
+            return ticketServiceException;
+        }
     }
 }

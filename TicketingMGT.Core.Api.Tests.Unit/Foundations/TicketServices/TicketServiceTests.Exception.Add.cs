@@ -154,7 +154,50 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
-    }
-    
 
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnAddIfExceptionOccursAndLogItAsync()
+        {
+            // given
+            Ticket randomTicket = CreateRandomTicket();
+            Exception serviceException = new Exception();
+
+            var failedTicketServiceException = new FailedTicketServiceException(
+                message: "Failed ticket service error occurred, contact support.",
+                innerException: serviceException);
+
+            var expectedTicketServiceException = new TicketServiceException(
+                message: "Ticket service error occurred, contact support.",
+                innerException: failedTicketServiceException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(serviceException);
+
+            // when
+            ValueTask<Ticket> addTask =
+                this.ticketService.CreateTicketAsync(randomTicket);
+
+            TicketServiceException actualTicketServiceException =
+                await Assert.ThrowsAsync<TicketServiceException>(
+                    addTask.AsTask);
+
+            // then
+            actualTicketServiceException.Should().BeEquivalentTo(
+                expectedTicketServiceException);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedTicketServiceException))),
+                        Times.Once);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+    }   
 }
