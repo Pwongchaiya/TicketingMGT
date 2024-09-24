@@ -23,13 +23,13 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                     .Returns(randomDateTime);
 
             this.storageBrokerMock.Setup(broker =>
-                broker.AddTicketAsync(inputTicket))
+                broker.InsertTicketAsync(inputTicket))
                     .ReturnsAsync(storageTicket);
 
             // when
             Ticket actualTicket =
                 await this.ticketService
-                    .CreateTicketAsync(inputTicket);
+                    .AddTicketAsync(inputTicket);
 
             // then
             actualTicket.Should().BeEquivalentTo(expectedTicket);
@@ -39,7 +39,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                     Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.AddTicketAsync(inputTicket),
+                broker.InsertTicketAsync(inputTicket),
                     Times.Once);
 
             this.dateTimeBrokerMock.VerifyNoOtherCalls();

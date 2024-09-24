@@ -22,13 +22,13 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                 innerException: nullTicketException);
 
             this.storageBrokerMock.Setup(broker =>
-                broker.AddTicketAsync(
+                broker.InsertTicketAsync(
                     It.IsAny<Ticket>()))
                         .ReturnsAsync(nullTicket);
 
             // when
             ValueTask<Ticket> ticketTask =
-                this.ticketService.CreateTicketAsync(nullTicket);
+                this.ticketService.AddTicketAsync(nullTicket);
 
             TicketValidationException actualTicketValidationException =
                 await Assert.ThrowsAsync<TicketValidationException>(
@@ -44,7 +44,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                     Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.AddTicketAsync(
+                broker.InsertTicketAsync(
                     It.IsAny<Ticket>()),
                         Times.Never);
 
@@ -102,7 +102,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             // when
             ValueTask<Ticket> ticketTask =
-                this.ticketService.CreateTicketAsync(invalidTicket);
+                this.ticketService.AddTicketAsync(invalidTicket);
 
             TicketValidationException actualTicketValidationException =
                 await Assert.ThrowsAsync<TicketValidationException>(
@@ -114,7 +114,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTimeOffset(),
-                    Times.Once);
+                    Times.Never);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -122,7 +122,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                     Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.AddTicketAsync(
+                broker.InsertTicketAsync(
                     It.IsAny<Ticket>()),
                         Times.Never);
 
@@ -158,7 +158,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             // when
             ValueTask<Ticket> ticketTask =
-                this.ticketService.CreateTicketAsync(invalidTicket);
+                this.ticketService.AddTicketAsync(invalidTicket);
 
             TicketValidationException actualTicketValidationException =
                 await Assert.ThrowsAsync<TicketValidationException>(
@@ -170,7 +170,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTimeOffset(),
-                    Times.Once);
+                    Times.Never);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -178,7 +178,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                         Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.AddTicketAsync(
+                broker.InsertTicketAsync(
                     It.IsAny<Ticket>()),
                         Times.Never);
 
@@ -223,7 +223,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             // when
             ValueTask<Ticket> addTask =
-                this.ticketService.CreateTicketAsync(invalidTicket);
+                this.ticketService.AddTicketAsync(invalidTicket);
 
             TicketValidationException actualTicketValidationException =
                 await Assert.ThrowsAsync<TicketValidationException>(
@@ -243,7 +243,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                         Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.AddTicketAsync(
+                broker.InsertTicketAsync(
                     It.IsAny<Ticket>()),
                         Times.Never);
 

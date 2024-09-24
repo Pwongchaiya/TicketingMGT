@@ -28,6 +28,10 @@ namespace TicketMGT.Core.Api.Services.Foundations
             {
                 throw CreateAndLogValidationException(invalidTicketException);
             }
+            catch (NotFoundTicketException notFoundTicketException)
+            {
+                throw CreateAndLogValidationException(notFoundTicketException);
+            }
             catch (SqlException sqlException)
             {
                 var failedTicketCodeStorageException =

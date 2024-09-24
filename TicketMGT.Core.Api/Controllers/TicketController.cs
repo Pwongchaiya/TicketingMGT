@@ -21,7 +21,7 @@ namespace TicketMGT.Core.Api.Controllers
         {
             try
             {
-                Ticket createdTicket = await ticketService.CreateTicketAsync(ticket);
+                Ticket createdTicket = await ticketService.AddTicketAsync(ticket);
                 return Created(createdTicket);
             }
             catch (TicketValidationException ticketValidationException)

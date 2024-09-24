@@ -20,18 +20,18 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
             Ticket expectedTicket = storageTicket.DeepClone();
 
             this.storageBrokerMock.Setup(broker =>
-                broker.GetTicketByIdAsync(inputId))
+                broker.SelectTicketByIdAsync(inputId))
                     .ReturnsAsync(storageTicket);
 
             // when
             Ticket actualTicket = await this.ticketService
-                .GetTicketByIdAsync(inputId);
+                .RetrieveTicketByIdAsync(inputId);
 
             // then
             actualTicket.Should().BeEquivalentTo(expectedTicket);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.GetTicketByIdAsync(inputId),
+                broker.SelectTicketByIdAsync(inputId),
                     Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();

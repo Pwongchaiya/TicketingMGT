@@ -29,6 +29,16 @@ namespace TicketMGT.Core.Api.Services.Foundations
             );
         }
 
+        private static void ValidateTicketExists(Ticket ticket, Guid ticketId)
+        {
+            if (ticket is null)
+            {
+                throw new NotFoundTicketException(
+                    ticketId: ticketId,
+                    message: $"Could not find ticket with id: {ticketId}");
+            }
+        }
+
         private void ValidateTicketNotNull(Ticket ticket)
         {
             if (ticket is null)
@@ -36,6 +46,12 @@ namespace TicketMGT.Core.Api.Services.Foundations
                 throw new NullTicketException(
                     message: "Ticket is null.");
             }
+        }
+
+        private void ValidateId(Guid id)
+        {
+            Validate(
+                (Rule: IsInvalid(id), Parameter: nameof(Ticket.Id)));
         }
 
         private static dynamic IsSame(
