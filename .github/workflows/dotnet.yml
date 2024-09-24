@@ -1,25 +1,32 @@
 name: Build & Test Ticket MGT
+
 on:
   push:
     branches:
-    - main
+      - main
   pull_request:
     branches:
-    - main
+      - main
+
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-latest
+
     steps:
-    - name: Check out
-      uses: actions/checkout@v2
-    - name: Setup .Net
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 8.0.100
-        include-prerelease: true
-    - name: Restore
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 8.0.100
+          include-prerelease: true
+
+      - name: Restore NuGet packages
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --no-restore
+
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal
