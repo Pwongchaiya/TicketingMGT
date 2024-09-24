@@ -34,7 +34,7 @@ namespace TicketMGT.Core.Api.Services.Foundations
 
         public IQueryable<Ticket> RetrieveAllTicketsAsync()
         {
-            throw new NotImplementedException();
+            return storageBroker.SelectAllTicketsAsync();
         }
 
         public ValueTask<Ticket> RetrieveTicketByIdAsync(Guid ticketId) =>

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
@@ -26,18 +21,18 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
             IQueryable<Ticket> expectedTickets = storageTickets;
 
             this.storageBrokerMock.Setup(broker =>
-                broker.SelectAllTickets())
+                broker.SelectAllTicketsAsync())
                     .Returns(storageTickets);
 
             // when
             IQueryable<Ticket> actualTickets =
-                this.ticketService.RetrieveAllTickets();
+                this.ticketService.RetrieveAllTicketsAsync();
 
             // then
             actualTickets.Should().BeEquivalentTo(expectedTickets);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.SelectAllTickets(),
+                broker.SelectAllTicketsAsync(),
                     Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
