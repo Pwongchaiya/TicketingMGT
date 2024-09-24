@@ -32,17 +32,17 @@ namespace TicketMGT.Core.Api.Services.Foundations
             return await storageBroker.AddTicketAsync(ticket);
         });
 
-        public ValueTask<Ticket> DeleteTicketAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IQueryable<Ticket> GetAllTicketsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public ValueTask<Ticket> GetTicketAsync(Guid ticketId)
+        public async ValueTask<Ticket> GetTicketByIdAsync(Guid ticketId)
+        {
+            return await storageBroker.GetTicketByIdAsync(ticketId);
+        }
+
+        public ValueTask<Ticket> DeleteTicketAsync(Guid id)
         {
             throw new NotImplementedException();
         }
