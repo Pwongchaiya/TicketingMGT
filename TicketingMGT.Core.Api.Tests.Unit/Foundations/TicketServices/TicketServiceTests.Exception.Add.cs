@@ -1,6 +1,7 @@
 ﻿using EFxceptions.Models.Exceptions;
 using FluentAssertions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
 using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
@@ -108,5 +109,52 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowTicketDependencyExceptionOnAddIfDbUpdateExceptionOccursAndLogItAsync()
+        {
+            // given
+            Ticket randomTicket = CreateRandomTicket();
+            var dbUpdateException = new DbUpdateException();
+
+            var failedTicketStorageException = new FailedTicketStorageException(
+                message: "Failed ticket storage error occurred, contact support.",
+                innerException: dbUpdateException);
+
+            var expectedTicketDependencyException = new TicketDependencyException(
+                message: "Ticket dependency error occurred, contact support.",
+                innerException: failedTicketStorageException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(dbUpdateException);
+
+            // when
+            ValueTask<Ticket> addTask =
+                this.ticketService.CreateTicketAsync(randomTicket);
+
+            TicketDependencyException actualTicketDependencyException =
+                await Assert.ThrowsAsync<TicketDependencyException>(
+                    addTask.AsTask);
+
+            // then
+            actualTicketDependencyException.Should().BeEquivalentTo(
+                expectedTicketDependencyException);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedTicketDependencyException))),
+                        Times.Once);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
     }
+    
+
 }
