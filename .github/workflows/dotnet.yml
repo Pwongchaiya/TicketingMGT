@@ -1,0 +1,35 @@
+name: Build & Test Ticket MGT
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 8.0.100
+          include-prerelease: true
+
+      - name: Restore NuGet packages
+        run: dotnet restore
+        working-directory: TicketMGT.Core.Api
+
+      - name: Build project
+        run: dotnet build --no-restore
+        working-directory: TicketMGT.Core.Api
+
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal
+        working-directory: TicketMGT.Core.Api
