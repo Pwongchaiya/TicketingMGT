@@ -36,7 +36,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTimeOffset(),
-                    Times.Never);
+                    Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
                 broker.AddTicketAsync(inputTicket),
