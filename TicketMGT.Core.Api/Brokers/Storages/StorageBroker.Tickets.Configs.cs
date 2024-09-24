@@ -8,6 +8,13 @@ namespace TicketMGT.Core.Api.Brokers.Storages
     {
         protected void ConfigureTicket(EntityTypeBuilder<Ticket> builder)
         {
+            builder.ToTable("Tickets");
+
+            builder.HasKey(ticket => ticket.Id);
+
+            builder.Property(ticket => ticket.Title)
+                .IsRequired()
+                .HasMaxLength(100);
         }
     }
 }

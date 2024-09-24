@@ -16,7 +16,6 @@ namespace TicketMGT.Core.Api.Models.Foundations.Tickets
         public DateTimeOffset? DueDate { get; set; }
         public Guid? AssignedToUserId { get; set; }
         public Guid? CreatedByUserId { get; set; }
-        public Guid? ParentTicketId { get; set; }
         public bool IsRecurring { get; set; }
         public RecurrencePattern? RecurrencePattern { get; set; }
         public bool IsNotificationEnabled { get; set; }
