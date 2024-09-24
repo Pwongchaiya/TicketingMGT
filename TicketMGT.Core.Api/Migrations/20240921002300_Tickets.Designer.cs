@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketMGT.Core.Api.Brokers.Storages;
 
@@ -11,9 +12,11 @@ using TicketMGT.Core.Api.Brokers.Storages;
 namespace TicketMGT.Core.Api.Migrations
 {
     [DbContext(typeof(StorageBroker))]
-    partial class StorageBrokerModelSnapshot : ModelSnapshot
+    [Migration("20240921002300_Tickets")]
+    partial class Tickets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace TicketMGT.Core.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TicketMGT.Core.Api.Models.Foundations.Tickets.Ticket", b =>
+            modelBuilder.Entity("TicketMGT.Core.Api.Models.Tickets.Ticket", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,9 +61,6 @@ namespace TicketMGT.Core.Api.Migrations
                     b.Property<bool>("IsRecurring")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("ParentTicketId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
@@ -74,16 +74,14 @@ namespace TicketMGT.Core.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("UpdatedDate")
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tickets", (string)null);
+                    b.ToTable("Tickets");
                 });
 #pragma warning restore 612, 618
         }
