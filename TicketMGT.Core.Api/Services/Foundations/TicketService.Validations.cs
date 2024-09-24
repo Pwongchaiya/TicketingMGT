@@ -16,7 +16,14 @@ namespace TicketMGT.Core.Api.Services.Foundations
                 (Rule: IsInvalid(ticket.Description), Parameter: nameof(Ticket.Description)),
                 (Rule: IsInvalid(ticket.Status), Parameter: nameof(Ticket.Status)),
                 (Rule: IsInvalid(ticket.CreatedDate), Parameter: nameof(Ticket.CreatedDate)),
-                (Rule: IsInvalid(ticket.UpdatedDate), Parameter: nameof(Ticket.UpdatedDate))
+                (Rule: IsInvalid(ticket.UpdatedDate), Parameter: nameof(Ticket.UpdatedDate)),
+
+                (Rule: IsNotSame(
+                        firstDate: ticket.UpdatedDate,
+                        secondDate: ticket.CreatedDate,
+                        secondDateName: nameof(Ticket.CreatedDate)),
+
+                Parameter: nameof(Ticket.UpdatedDate))
             );
         }
 
