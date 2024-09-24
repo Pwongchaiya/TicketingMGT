@@ -4,6 +4,7 @@ using RESTFulSense.Controllers;
 using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
 using TicketMGT.Core.Api.Services.Foundations;
+using System;
 
 namespace TicketMGT.Core.Api.Controllers
 {
@@ -21,7 +22,7 @@ namespace TicketMGT.Core.Api.Controllers
         {
             try
             {
-                Ticket createdTicket = await ticketService.CreateTicketAsync(ticket);
+                Ticket createdTicket = await ticketService.AddTicketAsync(ticket);
                 return Created(createdTicket);
             }
             catch (TicketValidationException ticketValidationException)
@@ -36,6 +37,33 @@ namespace TicketMGT.Core.Api.Controllers
             catch (TicketDependencyValidationException ticketDependencyValidationException)
             {
                 return BadRequest(ticketDependencyValidationException.InnerException);
+            }
+            catch (TicketDependencyException ticketDependencyException)
+            {
+                return InternalServerError(ticketDependencyException.InnerException);
+            }
+            catch (TicketServiceException ticketServiceException)
+            {
+                return InternalServerError(ticketServiceException.InnerException);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async ValueTask<ActionResult<Ticket>> GetTicketByIdAsync(Guid id)
+        {
+            try
+            {
+                Ticket ticket = await ticketService.RetrieveTicketByIdAsync(id);
+                return Ok(ticket);
+            }
+            catch (TicketValidationException ticketValidationException)
+                when (ticketValidationException.InnerException is NotFoundTicketException)
+            {
+                return NotFound(ticketValidationException.InnerException);
+            }
+            catch (TicketValidationException ticketValidationException)
+            {
+                return BadRequest(ticketValidationException.InnerException);
             }
             catch (TicketDependencyException ticketDependencyException)
             {
