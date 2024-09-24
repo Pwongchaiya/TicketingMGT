@@ -33,7 +33,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             // when
             ValueTask<Ticket> createTicket =
-                this.ticketService.CreateTicketAsync(randomTicket);
+                this.ticketService.AddTicketAsync(randomTicket);
 
             TicketDependencyException actualTicketDependencyException =
                 await Assert.ThrowsAsync<TicketDependencyException>(
@@ -53,7 +53,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                         Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.AddTicketAsync(
+                broker.InsertTicketAsync(
                     It.IsAny<Ticket>()),
                         Times.Never);
 
@@ -86,7 +86,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             // when
             ValueTask<Ticket> addTask =
-                this.ticketService.CreateTicketAsync(randomTicket);
+                this.ticketService.AddTicketAsync(randomTicket);
 
             TicketDependencyValidationException actualTicketDependencyValidationException =
                 await Assert.ThrowsAsync<TicketDependencyValidationException>(
@@ -131,7 +131,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             // when
             ValueTask<Ticket> addTask =
-                this.ticketService.CreateTicketAsync(randomTicket);
+                this.ticketService.AddTicketAsync(randomTicket);
 
             TicketDependencyException actualTicketDependencyException =
                 await Assert.ThrowsAsync<TicketDependencyException>(
@@ -176,7 +176,7 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 
             // when
             ValueTask<Ticket> addTask =
-                this.ticketService.CreateTicketAsync(randomTicket);
+                this.ticketService.AddTicketAsync(randomTicket);
 
             TicketServiceException actualTicketServiceException =
                 await Assert.ThrowsAsync<TicketServiceException>(

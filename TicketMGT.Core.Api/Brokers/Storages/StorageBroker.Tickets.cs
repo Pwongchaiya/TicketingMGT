@@ -10,13 +10,13 @@ namespace TicketMGT.Core.Api.Brokers.Storages
     {
         public DbSet<Ticket> Tickets { get; set; }
 
-        public async ValueTask<Ticket> AddTicketAsync(Ticket ticket) =>
+        public async ValueTask<Ticket> InsertTicketAsync(Ticket ticket) =>
             await InsertAsync(ticket);
 
-        public async ValueTask<Ticket> GetTicketByIdAsync(Guid ticketId) =>
+        public async ValueTask<Ticket> SelectTicketByIdAsync(Guid ticketId) =>
             await SelectAsync<Ticket>(ticketId);
 
-        public IQueryable<Ticket> GetAllTicketsAsync() =>
+        public IQueryable<Ticket> SelectAllTicketsAsync() =>
             SelectAll<Ticket>();
 
         public async ValueTask<Ticket> UpdateTicketAsync(Ticket ticket) =>
