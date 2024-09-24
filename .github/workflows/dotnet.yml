@@ -1,4 +1,4 @@
-name: Build & Test Ticketing MGT Tickets
+name: Build & Test Ticket MGT
 on:
   push:
     branches:
@@ -19,11 +19,7 @@ jobs:
         include-prerelease: true
     - name: Restore
       run: dotnet restore
-      working-directory: src/TicketMGT.Core.Api
     - name: Build
       run: dotnet build --no-restore
-      working-directory: src/TicketMGT.Core.Api
-
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: tests/TicketMGT.Core.Api.Tests

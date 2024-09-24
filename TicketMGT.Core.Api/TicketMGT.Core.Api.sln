@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketMGT.Core.Api.Tests.Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketMGT.Core.Api.Tests.Acceptance", "..\TicketMGT.Core.Api.Tests.Acceptance\TicketMGT.Core.Api.Tests.Acceptance.csproj", "{602F7381-56AD-4320-A77F-8CE506B90ADB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketMGT.Core.Api.Infrastructure.Build", "..\TicketMGT.Core.Api.Infrastructure.Build\TicketMGT.Core.Api.Infrastructure.Build.csproj", "{BC2F22F0-598B-4A51-941C-DF3D72EEA26F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{602F7381-56AD-4320-A77F-8CE506B90ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{602F7381-56AD-4320-A77F-8CE506B90ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{602F7381-56AD-4320-A77F-8CE506B90ADB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC2F22F0-598B-4A51-941C-DF3D72EEA26F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC2F22F0-598B-4A51-941C-DF3D72EEA26F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC2F22F0-598B-4A51-941C-DF3D72EEA26F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC2F22F0-598B-4A51-941C-DF3D72EEA26F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
