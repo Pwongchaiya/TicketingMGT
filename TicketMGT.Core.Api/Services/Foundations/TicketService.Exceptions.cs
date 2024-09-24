@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
 using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
@@ -34,6 +35,15 @@ namespace TicketMGT.Core.Api.Services.Foundations
 
                 throw CreateAndLogCriticalDependencyException(failedTicketCodeStorageException);
             }
+            catch (DuplicateKeyException duplicateKeyException)
+            {
+                var duplicateTicketException =
+                    new AlreadyExistsTicketException(
+                        message: "Ticket with the same id already exists.",
+                        innerException: duplicateKeyException);
+
+                throw CreateAndLogDependencyValidationException(duplicateTicketException);
+            }
         }
 
         private TicketValidationException CreateAndLogValidationException(
@@ -59,6 +69,19 @@ namespace TicketMGT.Core.Api.Services.Foundations
             this.loggingBroker.LogCritical(ticketCodeDependencyException);
 
             return ticketCodeDependencyException;
+        }
+
+        private TicketDependencyValidationException CreateAndLogDependencyValidationException(
+            Xeption exception)
+        {
+            var ticketDependencyValidationException =
+                new TicketDependencyValidationException(
+                    message: "Ticket dependency validation error occurred, fix errors and try again.",
+                    innerException: exception);
+
+            this.loggingBroker.LogError(ticketDependencyValidationException);
+
+            return ticketDependencyValidationException;
         }
     }
 }

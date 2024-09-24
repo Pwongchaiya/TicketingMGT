@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using EFxceptions.Models.Exceptions;
+using FluentAssertions;
 using Microsoft.Data.SqlClient;
 using Moq;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
@@ -54,6 +55,54 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                 broker.AddTicketAsync(
                     It.IsAny<Ticket>()),
                         Times.Never);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfTicketAlreadyExistsAndLogItAsync()
+        {
+            // given
+            Ticket randomTicket = CreateRandomTicket();
+            string randomMessage = GetRandomMessage();
+            var duplicateKeyException = new DuplicateKeyException(randomMessage);
+
+            var alreadyExistsTicketException =
+                new AlreadyExistsTicketException(
+                    message: "Ticket with the same id already exists.",
+                    innerException: duplicateKeyException);
+
+            var expectedTicketDependencyValidationException =
+                new TicketDependencyValidationException(
+                    message: "Ticket dependency validation error occurred, fix errors and try again.",
+                    innerException: alreadyExistsTicketException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(duplicateKeyException);
+
+            // when
+            ValueTask<Ticket> addTask =
+                this.ticketService.CreateTicketAsync(randomTicket);
+
+            TicketDependencyValidationException actualTicketDependencyValidationException =
+                await Assert.ThrowsAsync<TicketDependencyValidationException>(
+                    addTask.AsTask);
+
+            // then
+            actualTicketDependencyValidationException.Should().BeEquivalentTo(
+                expectedTicketDependencyValidationException);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedTicketDependencyValidationException))),
+                        Times.Once);
 
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
