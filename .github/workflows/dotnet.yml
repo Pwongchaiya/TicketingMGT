@@ -23,3 +23,13 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Restore
+      run: dotnet restore
+      working-directory: src/TicketMGT.Core.Api
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: src/TicketMGT.Core.Api
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      working-directory: tests/TicketMGT.Core.Api.Tests
