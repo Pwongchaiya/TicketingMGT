@@ -7,10 +7,10 @@ namespace TicketMGT.Core.Api.Services.Foundations
 {
     public interface ITicketService
     {
-        ValueTask<Ticket> CreateTicketAsync(Ticket ticket);
-        ValueTask<Ticket> GetTicketByIdAsync(Guid ticketId);
-        IQueryable<Ticket> GetAllTicketsAsync();
-        ValueTask<Ticket> UpdateTicketAsync(Ticket ticket);
-        ValueTask<Ticket> DeleteTicketAsync(Guid id);
+        ValueTask<Ticket> AddTicketAsync(Ticket ticket);
+        ValueTask<Ticket> RetrieveTicketByIdAsync(Guid ticketId);
+        IQueryable<Ticket> RetrieveAllTicketsAsync();
+        ValueTask<Ticket> ModifyTicketAsync(Ticket ticket);
+        ValueTask<Ticket> RemoveTicketAsync(Guid id);
     }
 }

@@ -7,10 +7,10 @@ namespace TicketMGT.Core.Api.Brokers.Storages
 {
     public partial interface IStorageBroker
     {
-        ValueTask<Ticket> AddTicketAsync(Ticket ticket);
+        ValueTask<Ticket> InsertTicketAsync(Ticket ticket);
 
-        ValueTask<Ticket> GetTicketByIdAsync(Guid ticketId);
-        IQueryable<Ticket> GetAllTicketsAsync();
+        ValueTask<Ticket> SelectTicketByIdAsync(Guid ticketId);
+        IQueryable<Ticket> SelectAllTicketsAsync();
 
         ValueTask<Ticket> UpdateTicketAsync(Ticket ticket);
 
