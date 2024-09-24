@@ -186,5 +186,70 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [MemberData(nameof(MinutesBeforeOrAfter))]
+        public async Task ShouldThrowValidationExceptionOnAddIfCreatedDateIsInvalidAndLogItAsync(
+            int minutesBeforeOrAfter)
+        {
+            // given
+            DateTimeOffset randomDateTimeOffset = GetRandomDateTimeOffset();
+
+            Ticket randomTicket = CreateRandomTicket(randomDateTimeOffset);
+
+            Ticket invalidTicket = randomTicket;
+
+            invalidTicket.CreatedDate = invalidTicket.CreatedDate.AddMinutes(minutesBeforeOrAfter);
+
+            var invalidTicketException = new InvalidTicketException(
+                message: "Invalid Ticket. Please correct the errors and try again");
+
+            invalidTicketException.AddData(
+                key: nameof(Ticket.CreatedDate),
+                values: $"Date is not recent");
+
+            invalidTicketException.AddData(
+                key: nameof(Ticket.UpdatedDate),
+                values: $"Date is not the same as {nameof(Ticket.CreatedDate)}");
+
+            var expectedTicketValidationException =
+                new TicketValidationException(
+                    message: "Ticket validation error occurred. Fix the errors and try again.",
+                    innerException: invalidTicketException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Returns(randomDateTimeOffset);
+
+            // when
+            ValueTask<Ticket> addTask =
+                this.ticketService.CreateTicketAsync(invalidTicket);
+
+            TicketValidationException actualTicketValidationException =
+                await Assert.ThrowsAsync<TicketValidationException>(
+                    addTask.AsTask);
+
+            // then
+            actualTicketValidationException.Should().BeEquivalentTo(
+                expectedTicketValidationException);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedTicketValidationException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.AddTicketAsync(
+                    It.IsAny<Ticket>()),
+                        Times.Never);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }

@@ -23,7 +23,9 @@ namespace TicketMGT.Core.Api.Services.Foundations
                         secondDate: ticket.CreatedDate,
                         secondDateName: nameof(Ticket.CreatedDate)),
 
-                Parameter: nameof(Ticket.UpdatedDate))
+                Parameter: nameof(Ticket.UpdatedDate)),
+
+                (Rule: IsNotRecent(ticket.CreatedDate), Parameter: nameof(ticket.CreatedDate))
             );
         }
 
