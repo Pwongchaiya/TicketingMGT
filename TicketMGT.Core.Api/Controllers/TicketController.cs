@@ -5,6 +5,7 @@ using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
 using TicketMGT.Core.Api.Services.Foundations;
 using System;
+using System.Linq;
 
 namespace TicketMGT.Core.Api.Controllers
 {
@@ -45,6 +46,24 @@ namespace TicketMGT.Core.Api.Controllers
             catch (TicketServiceException ticketServiceException)
             {
                 return InternalServerError(ticketServiceException.InnerException);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult<IQueryable<Ticket>> GetAllTickets()
+        {
+            try
+            {
+                IQueryable<Ticket> tickets = ticketService.RetrieveAllTicketsAsync();
+                return Ok(tickets);
+            }
+            catch (TicketDependencyException ticketDependencyException)
+            {
+                return Problem(ticketDependencyException.Message);
+            }
+            catch (TicketServiceException ticketServiceException)
+            {
+                return Problem(ticketServiceException.Message);
             }
         }
 
