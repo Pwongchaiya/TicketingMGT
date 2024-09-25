@@ -37,11 +37,21 @@ namespace YourNamespace
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            if (!app.Environment.IsEnvironment("Testing"))
+            {
+                app.UseHttpsRedirection();
+            }
+
+            app.UseStaticFiles();
+
+            app.UseRouting();
 
             app.UseAuthorization();
 
-            app.MapControllers();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             app.Run();
         }
