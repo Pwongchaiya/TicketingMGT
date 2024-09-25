@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Force.DeepCloner;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
@@ -55,6 +56,24 @@ namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
 
                 await this.ticketsApiBroker.DeleteTicketByIdAsync(actualTicket.Id);
             }
+        }
+
+        [Fact]
+        private async Task ShouldGetTicketByIdAsync()
+        {
+            // given
+            Ticket randomTicket = await PostRandomTicketAsync();
+            Ticket retrievedTicket = randomTicket;
+            Ticket expectedTicket = retrievedTicket.DeepClone();
+
+            // when
+            Ticket actualTicket =
+                await this.ticketsApiBroker.GetTicketByIdAsync(randomTicket.Id);
+
+            // then
+            actualTicket.Should().BeEquivalentTo(expectedTicket);
+
+            await this.ticketsApiBroker.DeleteTicketByIdAsync(actualTicket.Id);
         }
     }
 }
