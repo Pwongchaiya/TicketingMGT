@@ -37,11 +37,6 @@ namespace YourNamespace
                 app.UseSwaggerUI();
             }
 
-            if (!app.Environment.IsEnvironment("Testing"))
-            {
-                app.UseHttpsRedirection();
-            }
-
             app.UseStaticFiles();
 
             app.UseRouting();
