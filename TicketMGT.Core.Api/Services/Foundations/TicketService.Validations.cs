@@ -222,6 +222,6 @@ namespace TicketMGT.Core.Api.Services.Foundations
             }
 
             invalidTicketException.ThrowIfContainsErrors();
-        }        
+        }
     }
 }

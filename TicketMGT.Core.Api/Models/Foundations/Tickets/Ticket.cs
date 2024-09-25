@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using System;
+﻿using System;
 
 namespace TicketMGT.Core.Api.Models.Foundations.Tickets
 {

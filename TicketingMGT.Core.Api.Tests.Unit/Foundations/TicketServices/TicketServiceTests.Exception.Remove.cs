@@ -1,9 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using FluentAssertions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
-using FluentAssertions;
+using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
 
 namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 {

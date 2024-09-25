@@ -1,8 +1,8 @@
-﻿using Moq;
-using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
-using TicketMGT.Core.Api.Models.Foundations.Tickets;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Force.DeepCloner;
+using Moq;
+using TicketMGT.Core.Api.Models.Foundations.Tickets;
+using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
 
 namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 {

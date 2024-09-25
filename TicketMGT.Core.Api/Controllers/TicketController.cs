@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
-using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
+using TicketMGT.Core.Api.Models.Foundations.Tickets.Exceptions;
 using TicketMGT.Core.Api.Services.Foundations;
-using System;
-using System.Linq;
 
 namespace TicketMGT.Core.Api.Controllers
 {

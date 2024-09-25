@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
+using TicketMGT.Core.Api.Models.Foundations.Tickets;
 using TicketMGT.Core.Api.Tests.Acceptance.Brokers;
 using Tynamix.ObjectFiller;
-using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
 {

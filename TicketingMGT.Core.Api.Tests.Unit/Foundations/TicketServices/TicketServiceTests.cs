@@ -1,14 +1,14 @@
-﻿using Microsoft.Data.SqlClient;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
+using Microsoft.Data.SqlClient;
 using Moq;
 using TicketMGT.Core.Api.Brokers.DateTimes;
 using TicketMGT.Core.Api.Brokers.Loggings;
 using TicketMGT.Core.Api.Brokers.Storages;
+using TicketMGT.Core.Api.Models.Foundations.Tickets;
 using TicketMGT.Core.Api.Services.Foundations;
 using Tynamix.ObjectFiller;
 using Xeptions;
-using System.Runtime.CompilerServices;
-using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
 {
@@ -100,6 +100,6 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
                 .OnType<DateTimeOffset>().Use(dates);
 
             return filler;
-        }    
+        }
     }
 }

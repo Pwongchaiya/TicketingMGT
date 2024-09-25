@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using System.Net.Http;
+using Microsoft.AspNetCore.Mvc.Testing;
 using RESTFulSense.Clients;
-using System.Net.Http;
 using YourNamespace;
 
 namespace TicketMGT.Core.Api.Tests.Acceptance.Brokers
