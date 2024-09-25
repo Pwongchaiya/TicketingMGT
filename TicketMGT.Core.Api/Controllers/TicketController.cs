@@ -129,5 +129,39 @@ namespace TicketMGT.Core.Api.Controllers
                 return InternalServerError(ticketServiceException.InnerException);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async ValueTask<ActionResult<Ticket>> DeleteTicketAsync(Guid id)
+        {
+            try
+            {
+                Ticket deletedTicket =
+                     await this.ticketService.RemoveTicketByIdAsync(id);
+
+                return Ok(deletedTicket);
+            }
+            catch (TicketValidationException ticketValidationException)
+                when (ticketValidationException.InnerException is NotFoundTicketException)
+            {
+                return NotFound(ticketValidationException.InnerException);
+            }
+            catch (TicketValidationException ticketValidationException)
+            {
+                return BadRequest(ticketValidationException.InnerException);
+            }
+            catch (TicketDependencyValidationException ticketDependencyValidationException)
+                when (ticketDependencyValidationException.InnerException is LockedTicketException)
+            {
+                return Locked(ticketDependencyValidationException.InnerException);
+            }
+            catch (TicketDependencyException ticketDependencyException)
+            {
+                return InternalServerError(ticketDependencyException.InnerException);
+            }
+            catch (TicketServiceException ticketServiceException)
+            {
+                return InternalServerError(ticketServiceException.InnerException);
+            }
+        }
     }
 }
