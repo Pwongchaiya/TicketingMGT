@@ -11,8 +11,12 @@ namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
     {
         private readonly TicketApiBroker ticketsApiBroker;
 
-        public TicketsApiTests() =>
+        public TicketsApiTests()
+        {
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Testing");
             this.ticketsApiBroker = new TicketApiBroker();
+        }
+            
 
         private async Task<List<Ticket>> CreateRandomTickets()
         {
