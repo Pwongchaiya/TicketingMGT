@@ -9,10 +9,10 @@ namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
 {
     public partial class TicketsApiTests
     {
-        private readonly TicketApiBroker ticketApiBroker;
+        private readonly TicketApiBroker ticketsApiBroker;
 
-        public TicketsApiTests(TicketApiBroker ticketApiBroker) =>
-            this.ticketApiBroker = ticketApiBroker;
+        public TicketsApiTests() =>
+            this.ticketsApiBroker = new TicketApiBroker();
 
         private async Task<List<Ticket>> CreateRandomTickets()
         {
@@ -33,7 +33,7 @@ namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
         private async ValueTask<Ticket> PostRandomTicketAsync()
         {
             Ticket randomTicket = CreateRandomTicket();
-            await this.ticketApiBroker.PostTicketAsync(randomTicket);
+            await this.ticketsApiBroker.PostTicketAsync(randomTicket);
 
             return randomTicket;
         }

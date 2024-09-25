@@ -1,8 +1,12 @@
-﻿namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
+﻿using System.Threading.Tasks;
+using FluentAssertions;
+using TicketMGT.Core.Api.Models.Foundations.Tickets;
+
+namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
 {
     public partial class TicketsApiTests
     {
-        /*[Fact]
+        [Fact]
         private async Task ShouldPostTicketAsync()
         {
             // given
@@ -11,17 +15,17 @@
             Ticket expectedTicket = inputTicket;
 
             // when
-            await this.ticketApiBroker
+            await this.ticketsApiBroker
                 .PostTicketAsync(inputTicket);
 
             Ticket actualTicket =
-                await this.ticketApiBroker.GetTicketByIdAsync(
+                await this.ticketsApiBroker.GetTicketByIdAsync(
                     inputTicket.Id);
 
             // then
             actualTicket.Should().BeEquivalentTo(expectedTicket);
 
             await this.ticketsApiBroker.DeleteTicketByIdAsync(actualTicket.Id);
-        }*/
+        }
     }
 }
