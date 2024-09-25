@@ -52,6 +52,15 @@ namespace TicketMGT.Core.Api.Services.Foundations
 
                 throw CreateAndLogDependencyValidationException(duplicateTicketException);
             }
+            catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
+            {
+                var failedTicketCodeStorageException =
+                    new LockedTicketException(
+                        message: "Locked ticket record exception, please try again later.",
+                        innerException: dbUpdateConcurrencyException);
+
+                throw CreateAndLogDependencyValidationException(failedTicketCodeStorageException);
+            }
             catch (DbUpdateException dbUpdateException)
             {
                 var failedTicketCodeStorageException =

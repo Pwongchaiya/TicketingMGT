@@ -93,5 +93,41 @@ namespace TicketMGT.Core.Api.Controllers
                 return InternalServerError(ticketServiceException.InnerException);
             }
         }
+
+        [HttpPut]
+        public async ValueTask<ActionResult<Ticket>> PutTicketAsync(Ticket ticket)
+        {
+            try
+            {
+                Ticket updatedTicket = await ticketService.ModifyTicketAsync(ticket);
+                return Ok(updatedTicket);
+            }
+            catch (TicketValidationException ticketValidationException)
+                when (ticketValidationException.InnerException is NotFoundTicketException)
+            {
+                return NotFound(ticketValidationException.InnerException);
+            }
+            catch (TicketValidationException ticketValidationException)
+            {
+                return BadRequest(ticketValidationException.InnerException);
+            }
+            catch (TicketDependencyValidationException ticketDependencyValidationException)
+                when (ticketDependencyValidationException.InnerException is LockedTicketException)
+            {
+                return Locked(ticketDependencyValidationException.InnerException);
+            }
+            catch (TicketDependencyValidationException ticketDependencyValidationException)
+            {
+                return BadRequest(ticketDependencyValidationException.InnerException);
+            }
+            catch (TicketDependencyException ticketDependencyException)
+            {
+                return InternalServerError(ticketDependencyException.InnerException);
+            }
+            catch (TicketServiceException ticketServiceException)
+            {
+                return InternalServerError(ticketServiceException.InnerException);
+            }
+        }
     }
 }
