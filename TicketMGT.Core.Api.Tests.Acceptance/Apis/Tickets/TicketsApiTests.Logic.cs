@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -73,6 +74,26 @@ namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
             // then
             actualTicket.Should().BeEquivalentTo(expectedTicket);
 
+            await this.ticketsApiBroker.DeleteTicketByIdAsync(actualTicket.Id);
+        }
+
+        [Fact]
+        private async Task ShouldPutTicketAsync()
+        {
+            // given
+            Ticket randomTicket = await PostRandomTicketAsync();
+            Ticket modifiedTicket = randomTicket;
+            modifiedTicket.UpdatedDate = DateTimeOffset.UtcNow;
+
+            // when
+            await this.ticketsApiBroker.PutTicketAsync(modifiedTicket);
+
+            Ticket actualTicket =
+                await this.ticketsApiBroker.GetTicketByIdAsync(
+                    randomTicket.Id);
+
+            // then
+            actualTicket.Should().BeEquivalentTo(modifiedTicket);
             await this.ticketsApiBroker.DeleteTicketByIdAsync(actualTicket.Id);
         }
     }
