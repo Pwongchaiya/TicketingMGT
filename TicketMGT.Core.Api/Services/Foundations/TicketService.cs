@@ -52,7 +52,7 @@ namespace TicketMGT.Core.Api.Services.Foundations
         {
             ValidateTicketOnModify(ticket);
 
-            Ticket maybeTicket = 
+            Ticket maybeTicket =
             await storageBroker.SelectTicketByIdAsync(ticket.Id);
 
             ValidateStorageTicketOnModify(
@@ -62,9 +62,17 @@ namespace TicketMGT.Core.Api.Services.Foundations
             return await storageBroker.UpdateTicketAsync(ticket);
         });
 
-        public ValueTask<Ticket> RemoveTicketAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        public ValueTask<Ticket> RemoveTicketByIdAsync(Guid id) =>
+            TryCatch(async () =>
+            {
+                ValidateId(id);
+
+                Ticket maybeTicket = await this.storageBroker
+                    .SelectTicketByIdAsync(id);
+
+                ValidateTicketExists(maybeTicket, id);
+
+                return await this.storageBroker.DeleteTicketAsync(maybeTicket);
+            });
     }
 }

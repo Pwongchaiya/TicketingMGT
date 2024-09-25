@@ -11,6 +11,6 @@ namespace TicketMGT.Core.Api.Services.Foundations
         ValueTask<Ticket> RetrieveTicketByIdAsync(Guid ticketId);
         IQueryable<Ticket> RetrieveAllTicketsAsync();
         ValueTask<Ticket> ModifyTicketAsync(Ticket ticket);
-        ValueTask<Ticket> RemoveTicketAsync(Guid id);
+        ValueTask<Ticket> RemoveTicketByIdAsync(Guid id);
     }
 }
