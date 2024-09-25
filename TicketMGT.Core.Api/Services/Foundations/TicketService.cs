@@ -47,12 +47,22 @@ namespace TicketMGT.Core.Api.Services.Foundations
             return maybeTicket;
         });
 
-        public ValueTask<Ticket> RemoveTicketAsync(Guid id)
+        public ValueTask<Ticket> ModifyTicketAsync(Ticket ticket) =>
+        TryCatch(async () =>
         {
-            throw new NotImplementedException();
-        }
+            ValidateTicketOnModify(ticket);
 
-        public ValueTask<Ticket> ModifyTicketAsync(Ticket ticket)
+            Ticket maybeTicket = 
+            await storageBroker.SelectTicketByIdAsync(ticket.Id);
+
+            ValidateStorageTicketOnModify(
+                inputTicket: ticket,
+                storageTicket: maybeTicket);
+
+            return await storageBroker.UpdateTicketAsync(ticket);
+        });
+
+        public ValueTask<Ticket> RemoveTicketAsync(Guid id)
         {
             throw new NotImplementedException();
         }

@@ -29,6 +29,56 @@ namespace TicketMGT.Core.Api.Services.Foundations
             );
         }
 
+        private void ValidateTicketOnModify(Ticket ticket)
+        {
+            ValidateTicketNotNull(ticket);
+
+            Validate(
+                (Rule: IsInvalid(ticket.Id), Parameter: nameof(Ticket.Id)),
+                (Rule: IsInvalid(ticket.CreatedDate), Parameter: nameof(Ticket.CreatedDate)),
+                (Rule: IsInvalid(ticket.UpdatedDate), Parameter: nameof(Ticket.UpdatedDate)),
+
+                (Rule: IsSame(
+                        firstDate: ticket.UpdatedDate,
+                        secondDate: ticket.CreatedDate,
+                        secondDateName: nameof(Ticket.CreatedDate)),
+
+                Parameter: nameof(Ticket.UpdatedDate)),
+
+                (Rule: IsNotRecent(ticket.UpdatedDate), Parameter: nameof(Ticket.UpdatedDate))
+            );
+        }
+
+        private static void ValidateStorageTicketOnModify(
+            Ticket inputTicket,
+            Ticket storageTicket)
+        {
+            ValidateTicketExists(storageTicket, inputTicket.Id);
+
+            Validate(
+                (Rule: IsNotSame(
+                    firstDate: inputTicket.CreatedDate,
+                    secondDate: storageTicket.CreatedDate,
+                    secondDateName: nameof(Ticket.CreatedDate)),
+
+                Parameter: nameof(Ticket.CreatedDate)),
+
+                (Rule: IsSame(
+                    firstDate: inputTicket.UpdatedDate,
+                    secondDate: storageTicket.UpdatedDate,
+                    secondDateName: nameof(Ticket.UpdatedDate)),
+
+                Parameter: nameof(Ticket.UpdatedDate)),
+
+                (Rule: IsUpdateDateEarlierThanStorage(
+                    inputDate: inputTicket.UpdatedDate,
+                    storageDate: storageTicket.UpdatedDate,
+                    secondDateName: nameof(Ticket.UpdatedDate)),
+
+                Parameter: nameof(Ticket.UpdatedDate))
+            );
+        }
+
         private static void ValidateTicketExists(Ticket ticket, Guid ticketId)
         {
             if (ticket is null)
@@ -172,6 +222,6 @@ namespace TicketMGT.Core.Api.Services.Foundations
             }
 
             invalidTicketException.ThrowIfContainsErrors();
-        }
+        }        
     }
 }
