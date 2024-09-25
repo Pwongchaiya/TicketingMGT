@@ -199,5 +199,5 @@ namespace TicketMGT.Core.Api.Tests.Unit.Foundations.TicketServices
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
-    }   
+    }
 }

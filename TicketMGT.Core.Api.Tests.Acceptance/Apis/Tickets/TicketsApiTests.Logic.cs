@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-using TicketMGT.Core.Api.Models.Foundations.Tickets;
-
-namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
+﻿namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
 {
     public partial class TicketsApiTests
     {

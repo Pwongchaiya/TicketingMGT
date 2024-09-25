@@ -10,7 +10,7 @@ namespace TicketMGT.Core.Api.Services.Foundations
 {
     public partial class TicketService : ITicketService
     {
-        private readonly IStorageBroker storageBroker;        
+        private readonly IStorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
         private readonly IDateTimeBroker dateTimeBroker;
 
