@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Force.DeepCloner;
+using RESTFulSense.Exceptions;
 using TicketMGT.Core.Api.Models.Foundations.Tickets;
 
 namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
@@ -95,6 +96,30 @@ namespace TicketMGT.Core.Api.Tests.Acceptance.Apis.Tickets
             // then
             actualTicket.Should().BeEquivalentTo(modifiedTicket);
             await this.ticketsApiBroker.DeleteTicketByIdAsync(actualTicket.Id);
+        }
+
+        [Fact]
+        private async Task ShouldDeleteTicketAsync()
+        {
+            // given
+            Ticket randomTicket = await PostRandomTicketAsync();
+            Ticket inputTicket = randomTicket;
+            Ticket expectedTicket = inputTicket;
+
+            // when
+            Ticket deletedTicket =
+                await this.ticketsApiBroker
+                    .DeleteTicketByIdAsync(inputTicket.Id);
+
+            ValueTask<Ticket> getTicketByIdTask =
+                this.ticketsApiBroker.GetTicketByIdAsync(
+                    inputTicket.Id);
+
+            // then
+            deletedTicket.Should().BeEquivalentTo(expectedTicket);
+
+            await Assert.ThrowsAsync<HttpResponseNotFoundException>(() =>
+                getTicketByIdTask.AsTask());
         }
     }
 }
