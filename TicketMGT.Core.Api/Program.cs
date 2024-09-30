@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketMGT.Core.Api.Brokers.DateTimeBrokers;
@@ -18,15 +19,34 @@ namespace YourNamespace
             // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddHttpClient();
+            builder.Services.AddDbContext<StorageBroker>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddProblemDetails();
+
+            // Configure IConfiguration
+            builder.Configuration.AddJsonFile(
+                "appsettings.json",
+                optional: false,
+                reloadOnChange: true);
 
             // Register the brokers
             builder.Services.AddTransient<IDateTimeBroker, DateTimeBroker>();
             builder.Services.AddTransient<ILoggingBroker, LoggingBroker>();
             builder.Services.AddTransient<IStorageBroker, StorageBroker>();
             builder.Services.AddTransient<ITicketService, TicketService>();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost", builder =>
+                {
+                    builder
+                        .WithOrigins("http://localhost:3001")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
 
             var app = builder.Build();
 
@@ -37,12 +57,13 @@ namespace YourNamespace
                 app.UseSwaggerUI();
             }
 
+            app.UseExceptionHandler();
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowLocalhost");
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.MapControllers();
-
             app.Run();
         }
     }
