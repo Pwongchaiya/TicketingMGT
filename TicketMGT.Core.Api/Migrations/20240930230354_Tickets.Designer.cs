@@ -12,7 +12,7 @@ using TicketMGT.Core.Api.Brokers.Storages;
 namespace TicketMGT.Core.Api.Migrations
 {
     [DbContext(typeof(StorageBroker))]
-    [Migration("20240921002300_Tickets")]
+    [Migration("20240930230354_Tickets")]
     partial class Tickets
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace TicketMGT.Core.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TicketMGT.Core.Api.Models.Tickets.Ticket", b =>
+            modelBuilder.Entity("TicketMGT.Core.Api.Models.Foundations.Tickets.Ticket", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,14 +74,16 @@ namespace TicketMGT.Core.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTimeOffset>("UpdatedDate")
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 #pragma warning restore 612, 618
         }
