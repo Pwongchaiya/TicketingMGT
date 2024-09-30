@@ -57,13 +57,18 @@ namespace YourNamespace
                 app.UseSwaggerUI();
             }
 
+            app.UseStaticFiles();
             app.UseExceptionHandler();
             app.UseHttpsRedirection();
             app.UseCors("AllowLocalhost");
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.MapControllers();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
             app.Run();
         }
     }
