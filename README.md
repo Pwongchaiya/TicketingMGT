@@ -49,8 +49,6 @@ TicketMGT.Core.Api is a RESTful API for managing tickets. It provides endpoints 
 
 ## Exception Documentation
 
-The following exceptions are used in the `TicketMGT.Core.Api` project, located in the `C:\Users\pwong\source\repos\TicketingMGT.Core.Api\TicketMGT.Core.Api\Models\Foundations\Tickets\Exceptions\` directory:
-
 ### TicketValidationException
 
 - **Description**: This exception is thrown when a ticket fails validation.
@@ -87,8 +85,6 @@ The following exceptions are used in the `TicketMGT.Core.Api` project, located i
 - **Usage**: Used to indicate that a ticket is currently locked and cannot be processed.
 
 ## TicketService Validations
-
-The following validations are implemented in the `TicketService.Validations.cs` file, located in the `C:\Users\pwong\source\repos\TicketingMGT.Core.Api\TicketMGT.Core.Api\Services\Foundations\` directory:
 
 ### ValidateTicketOnCreate
 
@@ -145,5 +141,3 @@ The following validations are implemented in the `TicketService.Validations.cs` 
   - `Guid[] ticketIds`: The array of ticket IDs to validate.
 - **Throws**: 
   - `TicketValidationException`: If any of the ticket IDs are invalid.
-
-This documentation provides a clear understanding of the validations implemented in the `TicketService.Validations.cs` file.
