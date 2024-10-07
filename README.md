@@ -1,6 +1,22 @@
-﻿# TicketMGT.Core.Api
+﻿          # TicketMGT.Core.Api
 
-TicketMGT.Core.Api is a RESTful API for managing tickets. It provides endpoints to create, retrieve, update, and delete tickets. The API is built using ASP.NET Core and follows best practices for RESTful services.
+Table of Contents
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Ticket Model](#ticket-model)
+  - [Properties](#properties)
+  - [Example JSON Representation](#example-json-representation)
+  - [Enums](#enums)
+- [Summary of Endpoints](#summary-of-endpoints)
+  - [POST /api/tickets](#post-apitickets)
+  - [GET /api/tickets](#get-apitickets)
+  - [GET /api/tickets/{id}](#get-apiticketsid)
+  - [PUT /api/tickets](#put-apitickets)
+  - [DELETE /api/tickets/{id}](#delete-apiticketsid)
+- [Exception Documentation](#exception-documentation)
+- [TicketService Validations](#ticketservice-validations)
 
 ## Overview
 
@@ -15,13 +31,13 @@ This API allows clients to manage tickets through a set of well-defined endpoint
 - A tool to test API endpoints (e.g., Postman, curl)
 
 ### Installation
-                
+
 1. Clone the repository: `git clone https://github.com/your-repo/TicketMGT.Core.Api.git`
 2. Navigate to the project directory: `cd TicketMGT.Core.Api`
 3. Restore the dependencies: `dotnet restore`
 4. Run the application: `dotnet run`
 
-## 📝 Ticket Model
+## Ticket Model
 
 The `Ticket` model represents a ticket in the TicketMGT.Core.Api system. It contains the following properties:
 
@@ -98,9 +114,6 @@ The `Ticket` model represents a ticket in the TicketMGT.Core.Api system. It cont
   - **Example**: `3`
 
 ### Example JSON Representation
-
-```json{ "id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "title": "Bug in login feature", "description": "Users are unable to log in using their credentials", "status": "New", "priority": "High", "createdDate": "2023-10-01T12:34:56Z", "updatedDate": "2023-10-02T14:20:00Z", "completedAt": "2023-10-03T16:45:00Z", "dueDate": "2023-10-05T23:59:59Z", "assignedToUserId": "a1234567-89ab-cdef-0123-456789abcdef", "createdByUserId": "b2345678-90bc-def0-1234-567890abcdef", "isRecurring": true, "recurrencePattern": "Daily", "isNotificationEnabled": true, "reminderDate": "2023-10-04T09:00:00Z", "estimatedTimeToCompleteInHours": 4, "actualTimeToCompleteInHours": 3 }```
-
 ### Enums
 
 #### TicketPriority
@@ -116,46 +129,9 @@ The `Ticket` model represents a ticket in the TicketMGT.Core.Api system. It cont
 - **Completed**
 - **Archived**
 
-### Usage
-
-The `Ticket` model is used in the request and response bodies of the API endpoints to represent ticket data. Below are some examples of how the `Ticket` model is used in different endpoints:
-
-#### Create a New Ticket (POST /api/tickets)
-
-**Request Body**:
-
-```json{ "title": "Bug in login feature", "description": "Users are unable to log in using their credentials", "status": "New", "priority": "High", "dueDate": "2023-10-05T23:59:59Z", "assignedToUserId": "a1234567-89ab-cdef-0123-456789abcdef", "isRecurring": true, "recurrencePattern": "Daily", "isNotificationEnabled": true, "reminderDate": "2023-10-04T09:00:00Z", "estimatedTimeToCompleteInHours": 4 }```
-
-**Response**:
-```json{ "id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "title": "Bug in login feature", "description": "Users are unable to log in using their credentials", "status": "New", "priority": "High", "createdDate": "2023-10-01T12:34:56Z", "updatedDate": "2023-10-02T14:20:00Z", "dueDate": "2023-10-05T23:59:59Z", "assignedToUserId": "a1234567-89ab-cdef-0123-456789abcdef", "isRecurring": true, "recurrencePattern": "Daily", "isNotificationEnabled": true, "reminderDate": "2023-10-04T09:00:00Z", "estimatedTimeToCompleteInHours": 4 }```
-
-#### Retrieve a Ticket by ID (GET /api/tickets/{id})
-
-**Response**:
-
-```json{ "id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "title": "Bug in login feature", "description": "Users are unable to log in using their credentials", "status": "New", "priority": "High", "createdDate": "2023-10-01T12:34:56Z", "updatedDate": "2023-10-02T14:20:00Z", "dueDate": "2023-10-05T23:59:59Z", "assignedToUserId": "a1234567-89ab-cdef-0123-456789abcdef", "isRecurring": true, "recurrencePattern": "Daily", "isNotificationEnabled": true, "reminderDate": "2023-10-04T09:00:00Z", "estimatedTimeToCompleteInHours": 4 }```
-
-#### Update an Existing Ticket (PUT /api/tickets)
-
-**Request Body**:
-```json{ "id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "title": "Bug in login feature", "description": "Users are unable to log in using their credentials", "status": "InProgress", "priority": "High", "dueDate": "2023-10-05T23:59:59Z", "assignedToUserId": "a1234567-89ab-cdef-0123-456789abcdef", "isRecurring": true, "recurrencePattern": "Daily", "isNotificationEnabled": true, "reminderDate": "2023-10-04T09:00:00Z", "estimatedTimeToCompleteInHours": 4 }```
-
-**Response**:
-
-```json{ "id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "title": "Bug in login feature", "description": "Users are unable to log in using their credentials", "status": "InProgress", "priority": "High", "createdDate": "2023-10-01T12:34:56Z", "updatedDate": "2023-10-02T14:20:00Z", "dueDate": "2023-10-05T23:59:59Z", "assignedToUserId": "a1234567-89ab-cdef-0123-456789abcdef", "isRecurring": true, "recurrencePattern": "Daily", "isNotificationEnabled": true, "reminderDate": "2023-10-04T09:00:00Z", "estimatedTimeToCompleteInHours": 4 }```
-
-#### Delete a Ticket by ID (DELETE /api/tickets/{id})
-
-**Response**:
-
-```json{ "id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "title": "Bug in login feature", "description": "Users are unable to log in using their credentials", "status": "Archived", "priority": "High", "createdDate": "2023-10-01T12:34:56Z", "updatedDate": "2023-10-02T14:20:00Z", "dueDate": "2023-10-05T23:59:59Z", "assignedToUserId": "a1234567-89ab-cdef-0123-456789abcdef", "isRecurring": true, "recurrencePattern": "Daily", "isNotificationEnabled": true, "reminderDate": "2023-10-04T09:00:00Z", "estimatedTimeToCompleteInHours": 4 }```
-
-
-
-
 ## Summary of Endpoints
 
-### 1. **POST /api/tickets**
+### POST /api/tickets
 - **Description**: Creates a new ticket.
 - **Request Body**: A JSON object representing the `Ticket`.
 - **Responses**:
@@ -164,13 +140,13 @@ The `Ticket` model is used in the request and response bodies of the API endpoin
   - `409 Conflict`: If the ticket already exists.
   - `500 Internal Server Error`: If there is a server error.
 
-### 2. **GET /api/tickets**
+### GET /api/tickets
 - **Description**: Retrieves all tickets.
 - **Responses**:
   - `200 OK`: Returns the list of tickets.
   - `500 Internal Server Error`: If there is a server error.
 
-### 3. **GET /api/tickets/{id}**
+### GET /api/tickets/{id}
 - **Description**: Retrieves a ticket by its ID.
 - **Path Parameter**: `id` (GUID) - The ID of the ticket to retrieve.
 - **Responses**:
@@ -179,7 +155,7 @@ The `Ticket` model is used in the request and response bodies of the API endpoin
   - `404 Not Found`: If the ticket is not found.
   - `500 Internal Server Error`: If there is a server error.
 
-### 4. **PUT /api/tickets**
+### PUT /api/tickets
 - **Description**: Updates an existing ticket.
 - **Request Body**: A JSON object representing the `Ticket`.
 - **Responses**:
@@ -189,7 +165,7 @@ The `Ticket` model is used in the request and response bodies of the API endpoin
   - `423 Locked`: If the ticket is locked.
   - `500 Internal Server Error`: If there is a server error.
 
-### 5. **DELETE /api/tickets/{id}**
+### DELETE /api/tickets/{id}
 - **Description**: Deletes a ticket by its ID.
 - **Path Parameter**: `id` (GUID) - The ID of the ticket to delete.
 - **Responses**:
@@ -198,7 +174,7 @@ The `Ticket` model is used in the request and response bodies of the API endpoin
   - `404 Not Found`: If the ticket is not found.
   - `423 Locked`: If the ticket is locked.
 
-## ⚠️ Exception Documentation
+## Exception Documentation
 
 ### TicketValidationException
 - **Description**: Thrown when a ticket fails validation.
@@ -228,7 +204,7 @@ The `Ticket` model is used in the request and response bodies of the API endpoin
 - **Description**: Thrown when a ticket is locked and cannot be modified or deleted.
 - **Usage**: Indicates that a ticket is currently locked and cannot be processed.
 
-## ✅ TicketService Validations
+## TicketService Validations
 
 ### ValidateTicketOnCreate
 - **Description**: Validates the ticket object before creating a new ticket.
@@ -278,5 +254,3 @@ The `Ticket` model is used in the request and response bodies of the API endpoin
   - `Guid[] ticketIds`: The array of ticket IDs to validate.
 - **Throws**: 
   - `TicketValidationException`: If any of the ticket IDs are invalid.
-  
-          
