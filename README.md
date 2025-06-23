@@ -17,6 +17,7 @@ Table of Contents
   - [DELETE /api/tickets/{id}](#delete-apiticketsid)
 - [Exception Documentation](#exception-documentation)
 - [TicketService Validations](#ticketservice-validations)
+- [Additional Documentation](#additional-documentation)
 
 ## Overview
 
@@ -254,3 +255,7 @@ The `Ticket` model represents a ticket in the TicketMGT.Core.Api system. It cont
   - `Guid[] ticketIds`: The array of ticket IDs to validate.
 - **Throws**: 
   - `TicketValidationException`: If any of the ticket IDs are invalid.
+
+## Additional Documentation
+See [docs/OVERVIEW.md](docs/OVERVIEW.md) for an explanation of the architecture and testing workflow.
+
